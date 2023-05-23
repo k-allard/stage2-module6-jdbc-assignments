@@ -44,7 +44,7 @@ public class SimpleJDBCRepository {
 
     public Long createUser(User user) {
         try (PreparedStatement pstmt = connection.prepareStatement(createUserSQL)) {
-            pstmt.setLong(1, 2);
+            pstmt.setLong(1, user.getId());
             pstmt.setString(2, user.getFirstName());
             pstmt.setString(3, user.getLastName());
             pstmt.setInt(4, user.getAge());
