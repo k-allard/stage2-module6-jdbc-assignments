@@ -42,18 +42,17 @@ public class SimpleJDBCRepository {
     private static final String findUserByNameSQL = "select * from myusers where firstname =?";
     private static final String findAllUserSQL = "select * from myusers";
 
-    public Long createUser() {
-        User user = new User();
+    public Long createUser(User user) {
         try (PreparedStatement pstmt = connection.prepareStatement(createUserSQL)) {
-            pstmt.setLong(1, 1);
-            pstmt.setString(2, "Jey");
-            pstmt.setString(3, "Loo");
-            pstmt.setInt(4, 1);
+            pstmt.setLong(1, 2);
+            pstmt.setString(2, user.getFirstName());
+            pstmt.setString(3, user.getLastName());
+            pstmt.setInt(4, user.getAge());
             pstmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1L;
+        return 2L;
     }
 
     public User findUserById(Long userId) {
