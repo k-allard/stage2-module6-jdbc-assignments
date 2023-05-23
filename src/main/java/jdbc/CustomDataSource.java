@@ -41,7 +41,7 @@ public class CustomDataSource implements DataSource {
         if (instance == null) {
             Properties props = new Properties();
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream stream = loader.getResourceAsStream("/app.properties");
+            InputStream stream = loader.getResourceAsStream("app.properties");
             try {
                 props.load(stream);
             } catch (IOException e) {
