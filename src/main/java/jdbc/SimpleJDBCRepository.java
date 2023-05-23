@@ -48,7 +48,7 @@ public class SimpleJDBCRepository {
             pstmt.setString(2, user.getFirstName());
             pstmt.setString(3, user.getLastName());
             pstmt.setInt(4, user.getAge());
-            pstmt.executeQuery();
+            pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
