@@ -36,7 +36,7 @@ public class SimpleJDBCRepository {
     private static final String createUserSQL = "INSERT INTO myusers" +
             "  (id, firstname, lastname, age) VALUES " +
             " (?, ?, ?, ?);";;
-    private static final String updateUserSQL = "update myusers set firstname = ? where id = ?;";
+    private static final String updateUserSQL = "UPDATE myusers SET firstname=? ,lastname=?, age=? WHERE id = ?;";
     private static final String deleteUser = "delete from myusers where id = ?;";
     private static final String findUserByIdSQL = "select * from myusers where id =?";
     private static final String findUserByNameSQL = "select * from myusers where firstname =?";
@@ -108,19 +108,20 @@ public class SimpleJDBCRepository {
         return users;
     }
 
-    public User updateUser() {
-        User user = new User();
+    public User updateUser(User user) {
         try (PreparedStatement pstmt = connection.prepareStatement(updateUserSQL)) {
-            pstmt.setString(1, "Jack");
-            pstmt.setLong(1, 1);
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
+            pstmt.setInt(3, user.getAge());
+            pstmt.setLong(4, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return findUserById(1L);
+        return user;
     }
 
-    private void deleteUser(Long userId) {
+    public void deleteUser(Long userId) {
         try (PreparedStatement pstmt = connection.prepareStatement(deleteUser)) {
             pstmt.setLong(1, userId);
             pstmt.executeUpdate();
