@@ -34,8 +34,8 @@ public class SimpleJDBCRepository {
     private Statement st = null;
 
     private static final String createUserSQL = "INSERT INTO myusers" +
-            "  (id, firstname, lastname, age) VALUES " +
-            " (?, ?, ?, ?);";;
+            "  (firstname, lastname, age) VALUES " +
+            " (?, ?, ?);";
     private static final String updateUserSQL = "UPDATE myusers SET firstname=? ,lastname=?, age=? WHERE id = ?;";
     private static final String deleteUser = "delete from myusers where id = ?;";
     private static final String findUserByIdSQL = "select * from myusers where id =?";
@@ -44,15 +44,14 @@ public class SimpleJDBCRepository {
 
     public Long createUser(User user) {
         try (PreparedStatement pstmt = connection.prepareStatement(createUserSQL)) {
-            pstmt.setLong(1, user.getId());
-            pstmt.setString(2, user.getFirstName());
-            pstmt.setString(3, user.getLastName());
-            pstmt.setInt(4, user.getAge());
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
+            pstmt.setInt(3, user.getAge());
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 2L;
+        return findUserByName(user.getFirstName()).getId();
     }
 
     public User findUserById(Long userId) {
